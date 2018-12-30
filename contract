@@ -1,3 +1,4 @@
+```
 pragma solidity ^0.4.25;
 
 contract CreditTransaction {
@@ -94,3 +95,4 @@ contract CreditTransaction {
 	    balance = balanceOf(addr);
 	}
 }
+```
