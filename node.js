@@ -270,17 +270,17 @@ var ac1 = web3.eth.accounts[1];
 
 mycontract.register.sendTransaction("jjx", {from:ac0});
 mycontract.register.sendTransaction("someone", {from:ac1});
-mycontract.getBalance.call("jjx", {from:ac0});
-mycontract.getBalance.call("someone", {from:ac1});
+console.log(mycontract.getBalance.call("jjx", {from:ac0}));
+console.log(mycontract.getBalance.call("someone", {from:ac1}));
 
 mycontract.transfer.sendTransaction(ac0, 1000, {from:ac1});
-mycontract.getBalance.call("jjx", {from:ac0});
-mycontract.getBalance.call("someone", {from:ac1});
+console.log(mycontract.getBalance.call("jjx", {from:ac0}));
+console.log(mycontract.getBalance.call("someone", {from:ac1}));
 
 mycontract.borrow.sendTransaction("jjx", 10000, {from:ac1});
-mycontract.getBalance.call("jjx", {from:ac0});
-mycontract.getBalance.call("someone", {from:ac1});
+console.log(mycontract.getBalance.call("jjx", {from:ac0}));
+console.log(mycontract.getBalance.call("someone", {from:ac1}));
 
 mycontract.payback.sendTransaction(0, {from:ac1});
-mycontract.getBalance.call("jjx", {from:ac0});
-mycontract.getBalance.call("someone", {from:ac1});
+console.log(mycontract.getBalance.call("jjx", {from:ac0}));
+console.log(mycontract.getBalance.call("someone", {from:ac1}));
