@@ -2,20 +2,20 @@ pragma solidity ^0.4.25;
 
 contract CreditTransaction {
     
-    string public constant name = "Loan Token";//token的名字、代币名称
-    string public constant symbol = "LT"; // token的简写/代币符号
-    uint public constant decimals = 4;
-    uint public constant totalSupply = 100000000;
+    	string public constant name = "Loan Token";//token的名字、代币名称
+    	string public constant symbol = "LT"; // token的简写/代币符号
+    	uint public constant decimals = 4;
+    	uint public constant totalSupply = 100000000;
     
-    Borrowrecord borrowrecord;
-    mapping(string => address)nameToAddr;
-    mapping(address => uint)Balances;
-    mapping(address => uint)Bill;
+    	Borrowrecord borrowrecord;
+    	mapping(string => address)nameToAddr;
+    	mapping(address => uint)Balances;
+    	mapping(address => uint)Bill;
 	mapping(address => mapping(uint => Borrowrecord))getBill;
 	mapping (address => mapping (address => uint)) allowed;
 	
 	event Transfer(address indexed _from, address indexed _to, uint _value);
-    event Approval(address indexed _owner, address indexed _spender, uint _value);
+    	event Approval(address indexed _owner, address indexed _spender, uint _value);
 
 	struct Borrowrecord {
 		address lender;
@@ -34,39 +34,39 @@ contract CreditTransaction {
 		return nameToAddr[hrename] != address(0);
 	}
 
-    function balanceOf(address _owner) private constant returns (uint balance) {
-    	balance = Balances[_owner];
-    }
+   	function balanceOf(address _owner) private constant returns (uint balance) {
+    		balance = Balances[_owner];
+    	}
 
-    function transfer(address _to, uint _value) public returns (bool success) {
-    	require(Balances[msg.sender] >= _value && Balances[_to] + _value > Balances[_to]);
-        require(_to != 0x0);
-    	Balances[_to] += _value;
-    	Balances[msg.sender] -= _value;
-    	emit Transfer(msg.sender, _to, _value);
-    	success = true;
-    }
+    	function transfer(address _to, uint _value) public returns (bool success) {
+    		require(Balances[msg.sender] >= _value && Balances[_to] + _value > Balances[_to]);
+        	require(_to != 0x0);
+    		Balances[_to] += _value;
+    		Balances[msg.sender] -= _value;
+    		emit Transfer(msg.sender, _to, _value);
+    		success = true;
+    	}
 
-    function transferFrom(address _from, address _to, uint _value) public returns (bool success) {
-    	require(Balances[_from] >= _value && allowed[_from][msg.sender] >= _value);
-    	Balances[_to] += _value;
-    	Balances[_from] -= _value;
-    	allowed[_from][msg.sender] -= _value;//消息发送者可以从账户_from中转出的数量减少_value
-        emit Transfer(_from, _to, _value);//触发转币交易事件
-    	success = true;
-    }
+    	function transferFrom(address _from, address _to, uint _value) public returns (bool success) {
+    		require(Balances[_from] >= _value && allowed[_from][msg.sender] >= _value);
+    		Balances[_to] += _value;
+    		Balances[_from] -= _value;
+    		allowed[_from][msg.sender] -= _value;//消息发送者可以从账户_from中转出的数量减少_value
+        	emit Transfer(_from, _to, _value);//触发转币交易事件
+    		success = true;
+    	}
 
-    function approve(address _spender, uint _value) public returns (bool success) {
-    	allowed[msg.sender][_spender] = _value;
-        emit Approval(msg.sender, _spender, _value);
-        success = true;
-    }
+    	function approve(address _spender, uint _value) public returns (bool success) {
+    		allowed[msg.sender][_spender] = _value;
+        	emit Approval(msg.sender, _spender, _value);
+        	success = true;
+    	}
 
-    function allowance(address _owner, address _spender) public constant returns (uint remaining) {
-    	remaining = allowed[_owner][_spender];
-    }
+    	function allowance(address _owner, address _spender) public constant returns (uint remaining) {
+    		remaining = allowed[_owner][_spender];
+    	}
 
-	function borrow(string borrowername, uint value) public payable {
+	function borrow(string borrowername, uint value) public {
 		address lender = nameToAddr[borrowername];
 		require(Balances[lender] >= value);
 		require(Balances[msg.sender] >= value / 5);
@@ -78,7 +78,7 @@ contract CreditTransaction {
 		Bill[msg.sender] += 1;
 	}
 
-	function payback(uint id) public payable{
+	function payback(uint id) public {
 		require(id < Bill[msg.sender] );
 		require(Balances[msg.sender] >= getBill[msg.sender][id].value);
 		transfer(getBill[msg.sender][id].lender, getBill[msg.sender][id].value);
